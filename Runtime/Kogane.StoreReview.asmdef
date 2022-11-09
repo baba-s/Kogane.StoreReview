@@ -1,0 +1,18 @@
+﻿{
+    "name": "Kogane.StoreReview",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b4318b6f3695442c4983c360248781db",
+        "GUID:4139e191aa32f459e9eb2e331225ad7e",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
