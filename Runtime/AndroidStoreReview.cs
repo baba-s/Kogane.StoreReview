@@ -13,17 +13,20 @@ namespace Kogane.Internal
     [SuppressMessage( "ReSharper", "NotAccessedField.Local" )]
     internal struct AndroidStoreReviewResult : IStoreReviewResult
     {
+        [SerializeField] private string m_name;
         [SerializeField] private bool   m_isDone;
         [SerializeField] private bool   m_isSuccessful;
         [SerializeField] private string m_error;
 
         public AndroidStoreReviewResult
         (
+            string name,
             bool   isDone,
             bool   isSuccessful,
             string error
         )
         {
+            m_name         = name;
             m_isDone       = isDone;
             m_isSuccessful = isSuccessful;
             m_error        = error;
@@ -45,6 +48,7 @@ namespace Kogane.Internal
             {
                 return new AndroidStoreReviewResult
                 (
+                    name: "RequestReviewFlow",
                     isDone: requestFlowOperation.IsDone,
                     isSuccessful: requestFlowOperation.IsSuccessful,
                     error: requestFlowOperation.Error.ToString()
@@ -60,6 +64,7 @@ namespace Kogane.Internal
             {
                 return new AndroidStoreReviewResult
                 (
+                    name: "LaunchReviewFlow",
                     isDone: launchFlowOperation.IsDone,
                     isSuccessful: launchFlowOperation.IsSuccessful,
                     error: launchFlowOperation.Error.ToString()
@@ -68,8 +73,9 @@ namespace Kogane.Internal
 
             return new AndroidStoreReviewResult
             (
-                isDone: true,
-                isSuccessful: true,
+                name: "",
+                isDone: requestFlowOperation.IsDone && launchFlowOperation.IsDone,
+                isSuccessful: requestFlowOperation.IsSuccessful && launchFlowOperation.IsSuccessful,
                 error: string.Empty
             );
         }
