@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Google.Play.Review;
 using JetBrains.Annotations;
@@ -36,13 +37,13 @@ namespace Kogane.Internal
     [UsedImplicitly]
     internal sealed class AndroidStoreReview : IStoreReview
     {
-        async UniTask<IStoreReviewResult> IStoreReview.RequestReviewAsync()
+        async UniTask<IStoreReviewResult> IStoreReview.RequestReviewAsync( CancellationToken cancellationToken )
         {
             // https://developer.android.com/guide/playcore/in-app-review/unity?hl=ja
             var reviewManager        = new ReviewManager();
             var requestFlowOperation = reviewManager.RequestReviewFlow();
 
-            await requestFlowOperation;
+            await requestFlowOperation.WithCancellation( cancellationToken );
 
             if ( requestFlowOperation.Error != ReviewErrorCode.NoError )
             {
@@ -58,7 +59,7 @@ namespace Kogane.Internal
             var playReviewInfo = requestFlowOperation.GetResult();
 
             var launchFlowOperation = reviewManager.LaunchReviewFlow( playReviewInfo );
-            await launchFlowOperation;
+            await launchFlowOperation.WithCancellation( cancellationToken );
 
             if ( launchFlowOperation.Error != ReviewErrorCode.NoError )
             {
